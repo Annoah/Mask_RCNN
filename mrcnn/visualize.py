@@ -16,6 +16,7 @@ import colorsys
 import numpy as np
 from skimage.measure import find_contours
 import matplotlib.pyplot as plt
+plt.switch_backend('agg')
 from matplotlib import patches,  lines
 from matplotlib.patches import Polygon
 import IPython.display
@@ -122,7 +123,7 @@ def display_instances(image, boxes, masks, class_ids, class_names,
 
     masked_image = image.astype(np.uint32).copy()
     for i in range(N):
-        color = colors[i]
+        color = colors[0]
 
         # Bounding box
         if not np.any(boxes[i]):
@@ -165,6 +166,14 @@ def display_instances(image, boxes, masks, class_ids, class_names,
     ax.imshow(masked_image.astype(np.uint8))
     if auto_show:
         plt.show()
+    
+    predict_image = '/home/public/qyn/WatchDataSets/test_data/result'
+    for key in range(len(os.listdir('/home/public/qyn/WatchDataSets/data/image'))):
+        if not os.path.exists(os.path.join(predict_image, str(key).zfill(6) + '.png')):
+            plt.savefig(os.path.join(predict_image, str(key).zfill(6) + '.png'))
+            plt.cla()
+            plt.close("all")
+            break
 
 
 def display_differences(image,
